@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory_system/core/database/models/supplier_model.dart';
-import 'package:inventory_system/features/suppliers/repositories/supplier_repository.dart';
+import 'package:inventory1/core/database/models/supplier_model.dart';
+import 'package:inventory1/features/suppliers/repositories/supplier_repository.dart';
 
 // Events
 abstract class SupplierEvent extends Equatable {
@@ -83,7 +83,9 @@ class SupplierBloc extends Bloc<SupplierEvent, SupplierState> {
   }
 
   Future<void> _onLoadSuppliers(
-      LoadSuppliers event, Emitter<SupplierState> emit) async {
+    LoadSuppliers event,
+    Emitter<SupplierState> emit,
+  ) async {
     emit(SupplierLoading());
     try {
       final suppliers = await _repository.getAllSuppliers();
@@ -94,7 +96,9 @@ class SupplierBloc extends Bloc<SupplierEvent, SupplierState> {
   }
 
   Future<void> _onSearchSuppliers(
-      SearchSuppliers event, Emitter<SupplierState> emit) async {
+    SearchSuppliers event,
+    Emitter<SupplierState> emit,
+  ) async {
     emit(SupplierLoading());
     try {
       final suppliers = await _repository.searchSuppliers(event.query);
@@ -105,7 +109,9 @@ class SupplierBloc extends Bloc<SupplierEvent, SupplierState> {
   }
 
   Future<void> _onAddSupplier(
-      AddSupplier event, Emitter<SupplierState> emit) async {
+    AddSupplier event,
+    Emitter<SupplierState> emit,
+  ) async {
     try {
       await _repository.saveSupplier(event.supplier);
       emit(SupplierOperationSuccess('Supplier added successfully'));
@@ -116,7 +122,9 @@ class SupplierBloc extends Bloc<SupplierEvent, SupplierState> {
   }
 
   Future<void> _onUpdateSupplier(
-      UpdateSupplier event, Emitter<SupplierState> emit) async {
+    UpdateSupplier event,
+    Emitter<SupplierState> emit,
+  ) async {
     try {
       await _repository.saveSupplier(event.supplier);
       emit(SupplierOperationSuccess('Supplier updated successfully'));
@@ -127,7 +135,9 @@ class SupplierBloc extends Bloc<SupplierEvent, SupplierState> {
   }
 
   Future<void> _onDeleteSupplier(
-      DeleteSupplier event, Emitter<SupplierState> emit) async {
+    DeleteSupplier event,
+    Emitter<SupplierState> emit,
+  ) async {
     try {
       await _repository.deleteSupplier(event.id);
       emit(SupplierOperationSuccess('Supplier deleted successfully'));

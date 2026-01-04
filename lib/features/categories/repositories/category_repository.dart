@@ -1,6 +1,6 @@
-import 'package:inventory_system/core/database/hive_service.dart';
-import 'package:inventory_system/core/database/models/category_model.dart';
-import 'package:inventory_system/core/database/models/product_model.dart';
+import 'package:inventory1/core/database/hive_service.dart';
+import 'package:inventory1/core/database/models/category_model.dart';
+import 'package:inventory1/core/database/models/product_model.dart';
 import 'package:hive/hive.dart';
 
 class CategoryRepository {
@@ -30,8 +30,9 @@ class CategoryRepository {
 
   Future<bool> deleteCategory(int id) async {
     // Check if products exist in this category
-    final productCount =
-        _productBox.values.where((p) => p.categoryId == id).length;
+    final productCount = _productBox.values
+        .where((p) => p.categoryId == id)
+        .length;
 
     if (productCount > 0) return false;
 

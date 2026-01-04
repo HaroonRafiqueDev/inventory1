@@ -1,15 +1,15 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:inventory_system/core/database/models/user_model.dart';
-import 'package:inventory_system/core/database/models/product_model.dart';
-import 'package:inventory_system/core/database/models/category_model.dart';
-import 'package:inventory_system/core/database/models/supplier_model.dart';
-import 'package:inventory_system/core/database/models/purchase_model.dart';
-import 'package:inventory_system/core/database/models/purchase_item_model.dart';
-import 'package:inventory_system/core/database/models/sale_model.dart';
-import 'package:inventory_system/core/database/models/sale_item_model.dart';
-import 'package:inventory_system/core/database/models/stock_adjustment_model.dart';
-import 'package:inventory_system/core/database/models/settings_model.dart';
-import 'package:inventory_system/core/database/models/license_model.dart';
+import 'package:inventory1/core/database/models/user_model.dart';
+import 'package:inventory1/core/database/models/product_model.dart';
+import 'package:inventory1/core/database/models/category_model.dart';
+import 'package:inventory1/core/database/models/supplier_model.dart';
+import 'package:inventory1/core/database/models/purchase_model.dart';
+import 'package:inventory1/core/database/models/purchase_item_model.dart';
+import 'package:inventory1/core/database/models/sale_model.dart';
+import 'package:inventory1/core/database/models/sale_item_model.dart';
+import 'package:inventory1/core/database/models/stock_adjustment_model.dart';
+import 'package:inventory1/core/database/models/settings_model.dart';
+import 'package:inventory1/core/database/models/license_model.dart';
 
 class HiveService {
   static Future<void> init() async {

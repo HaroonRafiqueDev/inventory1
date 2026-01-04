@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory_system/core/database/models/product_model.dart';
-import 'package:inventory_system/features/products/providers/product_bloc.dart';
-import 'package:inventory_system/features/products/screens/product_form_screen.dart';
+import 'package:inventory1/core/database/models/product_model.dart';
+import 'package:inventory1/features/products/providers/product_bloc.dart';
+import 'package:inventory1/features/products/screens/product_form_screen.dart';
 
 class ProductsScreen extends StatelessWidget {
   const ProductsScreen({super.key});
@@ -31,7 +31,8 @@ class ProductsScreen extends StatelessWidget {
             onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => const ProductFormScreen()),
+                builder: (context) => const ProductFormScreen(),
+              ),
             ),
             icon: const Icon(Icons.add),
             label: const Text('Add Product'),
@@ -42,13 +43,15 @@ class ProductsScreen extends StatelessWidget {
       body: BlocConsumer<ProductBloc, ProductState>(
         listener: (context, state) {
           if (state is ProductOperationSuccess) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.message)),
-            );
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.message)));
           } else if (state is ProductError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                  content: Text(state.message), backgroundColor: Colors.red),
+                content: Text(state.message),
+                backgroundColor: Colors.red,
+              ),
             );
           }
         },
@@ -85,25 +88,32 @@ class ProductsScreen extends StatelessWidget {
                                 product.quantity.toString(),
                                 style: TextStyle(
                                   color: isLowStock ? Colors.red : null,
-                                  fontWeight:
-                                      isLowStock ? FontWeight.bold : null,
+                                  fontWeight: isLowStock
+                                      ? FontWeight.bold
+                                      : null,
                                 ),
                               ),
                               if (isLowStock)
                                 const Padding(
                                   padding: EdgeInsets.only(left: 8),
-                                  child: Icon(Icons.warning_amber_rounded,
-                                      color: Colors.red, size: 16),
+                                  child: Icon(
+                                    Icons.warning_amber_rounded,
+                                    color: Colors.red,
+                                    size: 16,
+                                  ),
                                 ),
                             ],
                           ),
                         ),
-                        DataCell(Text(
-                            '\$${product.sellingPrice.toStringAsFixed(2)}')),
+                        DataCell(
+                          Text('\$${product.sellingPrice.toStringAsFixed(2)}'),
+                        ),
                         DataCell(
                           Container(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 4),
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
                             decoration: BoxDecoration(
                               color: product.isActive
                                   ? Colors.green.withValues(alpha: 0.1)
@@ -135,8 +145,11 @@ class ProductsScreen extends StatelessWidget {
                                 ),
                               ),
                               IconButton(
-                                icon: const Icon(Icons.delete_outline,
-                                    size: 20, color: Colors.red),
+                                icon: const Icon(
+                                  Icons.delete_outline,
+                                  size: 20,
+                                  color: Colors.red,
+                                ),
                                 onPressed: () =>
                                     _confirmDelete(context, product),
                               ),
@@ -169,7 +182,9 @@ class ProductsScreen extends StatelessWidget {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red, foregroundColor: Colors.white),
+              backgroundColor: Colors.red,
+              foregroundColor: Colors.white,
+            ),
             onPressed: () {
               if (product.id != null) {
                 context.read<ProductBloc>().add(DeleteProduct(product.id!));

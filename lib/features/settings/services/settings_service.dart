@@ -1,6 +1,6 @@
-import 'package:inventory_system/core/config/app_config.dart';
-import 'package:inventory_system/core/database/hive_service.dart';
-import 'package:inventory_system/core/database/models/settings_model.dart';
+import 'package:inventory1/core/config/app_config.dart';
+import 'package:inventory1/core/database/hive_service.dart';
+import 'package:inventory1/core/database/models/settings_model.dart';
 import 'package:hive/hive.dart';
 
 class SettingsService {

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:inventory_system/features/categories/screens/categories_screen.dart';
-import 'package:inventory_system/features/dashboard/screens/dashboard_overview_screen.dart';
-import 'package:inventory_system/features/inventory/screens/stock_adjustment_screen.dart';
-import 'package:inventory_system/features/products/screens/products_screen.dart';
-import 'package:inventory_system/features/purchases/screens/purchases_screen.dart';
-import 'package:inventory_system/features/reports/screens/reports_screen.dart';
-import 'package:inventory_system/features/sales/screens/sales_screen.dart';
-import 'package:inventory_system/features/settings/screens/settings_screen.dart';
-import 'package:inventory_system/features/suppliers/screens/suppliers_screen.dart';
-import 'package:inventory_system/shared/widgets/app_sidebar.dart';
+import 'package:inventory1/features/categories/screens/categories_screen.dart';
+import 'package:inventory1/features/dashboard/screens/dashboard_overview_screen.dart';
+import 'package:inventory1/features/inventory/screens/stock_adjustment_screen.dart';
+import 'package:inventory1/features/products/screens/products_screen.dart';
+import 'package:inventory1/features/purchases/screens/purchases_screen.dart';
+import 'package:inventory1/features/reports/screens/reports_screen.dart';
+import 'package:inventory1/features/sales/screens/sales_screen.dart';
+import 'package:inventory1/features/settings/screens/settings_screen.dart';
+import 'package:inventory1/features/suppliers/screens/suppliers_screen.dart';
+import 'package:inventory1/shared/widgets/app_sidebar.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -23,11 +23,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> _screens = [
-      DashboardOverviewScreen(onAction: (index) {
-        setState(() {
-          _selectedIndex = index;
-        });
-      }),
+      DashboardOverviewScreen(
+        onAction: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+      ),
       const ProductsScreen(),
       const StockAdjustmentScreen(),
       const CategoriesScreen(),
@@ -51,10 +53,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
           const VerticalDivider(thickness: 1, width: 1),
           Expanded(
-            child: IndexedStack(
-              index: _selectedIndex,
-              children: _screens,
-            ),
+            child: IndexedStack(index: _selectedIndex, children: _screens),
           ),
         ],
       ),

@@ -1,5 +1,5 @@
-import 'package:inventory_system/core/database/hive_service.dart';
-import 'package:inventory_system/core/database/models/product_model.dart';
+import 'package:inventory1/core/database/hive_service.dart';
+import 'package:inventory1/core/database/models/product_model.dart';
 import 'package:hive/hive.dart';
 
 class ProductRepository {
@@ -39,9 +39,11 @@ class ProductRepository {
   Future<List<ProductModel>> searchProducts(String query) async {
     final lowerQuery = query.toLowerCase();
     return _box.values
-        .where((p) =>
-            p.name.toLowerCase().contains(lowerQuery) ||
-            p.sku.toLowerCase().contains(lowerQuery))
+        .where(
+          (p) =>
+              p.name.toLowerCase().contains(lowerQuery) ||
+              p.sku.toLowerCase().contains(lowerQuery),
+        )
         .toList();
   }
 

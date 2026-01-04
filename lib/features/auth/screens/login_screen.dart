@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory_system/features/auth/providers/auth_bloc.dart';
+import 'package:inventory1/features/auth/providers/auth_bloc.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -44,9 +44,9 @@ class _LoginScreenState extends State<LoginScreen> {
               child: BlocConsumer<AuthBloc, AuthState>(
                 listener: (context, state) {
                   if (state is AuthError) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(state.message)),
-                    );
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text(state.message)));
                   }
                 },
                 builder: (context, state) {
@@ -61,12 +61,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: 16),
                       Text(
                         'Welcome Back',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineMedium
-                            ?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
+                        style: Theme.of(context).textTheme.headlineMedium
+                            ?.copyWith(fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 8),
                       const Text('Login to manage your inventory'),
@@ -107,18 +103,19 @@ class _LoginScreenState extends State<LoginScreen> {
                               ? null
                               : () {
                                   context.read<AuthBloc>().add(
-                                        LoginRequested(
-                                          _usernameController.text,
-                                          _passwordController.text,
-                                        ),
-                                      );
+                                    LoginRequested(
+                                      _usernameController.text,
+                                      _passwordController.text,
+                                    ),
+                                  );
                                 },
                           child: state is AuthLoading
                               ? const SizedBox(
                                   height: 20,
                                   width: 20,
-                                  child:
-                                      CircularProgressIndicator(strokeWidth: 2),
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                  ),
                                 )
                               : const Text('Login'),
                         ),

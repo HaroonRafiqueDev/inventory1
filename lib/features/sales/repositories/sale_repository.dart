@@ -1,7 +1,7 @@
-import 'package:inventory_system/core/database/hive_service.dart';
-import 'package:inventory_system/core/database/models/product_model.dart';
-import 'package:inventory_system/core/database/models/sale_item_model.dart';
-import 'package:inventory_system/core/database/models/sale_model.dart';
+import 'package:inventory1/core/database/hive_service.dart';
+import 'package:inventory1/core/database/models/product_model.dart';
+import 'package:inventory1/core/database/models/sale_item_model.dart';
+import 'package:inventory1/core/database/models/sale_model.dart';
 import 'package:hive/hive.dart';
 
 class SaleRepository {
@@ -48,8 +48,9 @@ class SaleRepository {
   }
 
   Future<void> deleteSale(int saleId) async {
-    final items =
-        _itemBox.values.where((item) => item.saleId == saleId).toList();
+    final items = _itemBox.values
+        .where((item) => item.saleId == saleId)
+        .toList();
 
     // Reverse stock updates
     for (var item in items) {

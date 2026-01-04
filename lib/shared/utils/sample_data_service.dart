@@ -1,12 +1,12 @@
-import 'package:inventory_system/core/database/hive_service.dart';
-import 'package:inventory_system/core/database/models/category_model.dart';
-import 'package:inventory_system/core/database/models/product_model.dart';
-import 'package:inventory_system/core/database/models/supplier_model.dart';
-import 'package:inventory_system/core/database/models/purchase_model.dart';
-import 'package:inventory_system/core/database/models/purchase_item_model.dart';
-import 'package:inventory_system/core/database/models/sale_model.dart';
-import 'package:inventory_system/core/database/models/sale_item_model.dart';
-import 'package:inventory_system/core/database/models/stock_adjustment_model.dart';
+import 'package:inventory1/core/database/hive_service.dart';
+import 'package:inventory1/core/database/models/category_model.dart';
+import 'package:inventory1/core/database/models/product_model.dart';
+import 'package:inventory1/core/database/models/supplier_model.dart';
+import 'package:inventory1/core/database/models/purchase_model.dart';
+import 'package:inventory1/core/database/models/purchase_item_model.dart';
+import 'package:inventory1/core/database/models/sale_model.dart';
+import 'package:inventory1/core/database/models/sale_item_model.dart';
+import 'package:inventory1/core/database/models/stock_adjustment_model.dart';
 
 class SampleDataService {
   static Future<void> seedData() async {

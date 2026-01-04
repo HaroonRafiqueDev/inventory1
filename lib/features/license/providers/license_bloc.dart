@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory_system/features/license/services/license_service.dart';
+import 'package:inventory1/features/license/services/license_service.dart';
 
 // Events
 abstract class LicenseEvent extends Equatable {
@@ -54,7 +54,9 @@ class LicenseBloc extends Bloc<LicenseEvent, LicenseState> {
   }
 
   Future<void> _onCheckStatus(
-      CheckLicenseStatus event, Emitter<LicenseState> emit) async {
+    CheckLicenseStatus event,
+    Emitter<LicenseState> emit,
+  ) async {
     emit(LicenseLoading());
     try {
       final isValid = await LicenseService.isLicenseValid();
@@ -70,7 +72,9 @@ class LicenseBloc extends Bloc<LicenseEvent, LicenseState> {
   }
 
   Future<void> _onActivateTrial(
-      ActivateTrial event, Emitter<LicenseState> emit) async {
+    ActivateTrial event,
+    Emitter<LicenseState> emit,
+  ) async {
     emit(LicenseLoading());
     try {
       await LicenseService.activateTrial();
@@ -81,7 +85,9 @@ class LicenseBloc extends Bloc<LicenseEvent, LicenseState> {
   }
 
   Future<void> _onActivateLicense(
-      ActivateLicense event, Emitter<LicenseState> emit) async {
+    ActivateLicense event,
+    Emitter<LicenseState> emit,
+  ) async {
     emit(LicenseLoading());
     try {
       final success = await LicenseService.activateLicense(event.key);

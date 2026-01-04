@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory_system/core/database/models/product_model.dart';
-import 'package:inventory_system/core/database/models/sale_item_model.dart';
-import 'package:inventory_system/core/database/models/sale_model.dart';
-import 'package:inventory_system/features/categories/providers/category_bloc.dart';
-import 'package:inventory_system/features/products/providers/product_bloc.dart';
-import 'package:inventory_system/features/sales/providers/sale_bloc.dart';
-import 'package:inventory_system/core/config/app_config.dart';
+import 'package:inventory1/core/database/models/product_model.dart';
+import 'package:inventory1/core/database/models/sale_item_model.dart';
+import 'package:inventory1/core/database/models/sale_model.dart';
+import 'package:inventory1/features/categories/providers/category_bloc.dart';
+import 'package:inventory1/features/products/providers/product_bloc.dart';
+import 'package:inventory1/features/sales/providers/sale_bloc.dart';
+import 'package:inventory1/core/config/app_config.dart';
 
 class SaleFormScreen extends StatefulWidget {
   const SaleFormScreen({super.key});
@@ -17,9 +17,11 @@ class SaleFormScreen extends StatefulWidget {
 
 class _SaleFormScreenState extends State<SaleFormScreen> {
   final _saleNumberController = TextEditingController(
-      text: 'SALE-${DateTime.now().millisecondsSinceEpoch}');
-  final _customerNameController =
-      TextEditingController(text: 'Walk-in Customer');
+    text: 'SALE-${DateTime.now().millisecondsSinceEpoch}',
+  );
+  final _customerNameController = TextEditingController(
+    text: 'Walk-in Customer',
+  );
   final _notesController = TextEditingController();
   final List<SaleItemModel> _items = [];
 
@@ -35,9 +37,10 @@ class _SaleFormScreenState extends State<SaleFormScreen> {
   double get _totalAmount =>
       _items.fold(0, (sum, item) => sum + item.totalPrice);
   double get _totalProfit => _items.fold(
-      0,
-      (sum, item) =>
-          sum + (item.sellingPrice - item.purchasePrice) * item.quantity);
+    0,
+    (sum, item) =>
+        sum + (item.sellingPrice - item.purchasePrice) * item.quantity,
+  );
 
   @override
   void dispose() {
@@ -135,8 +138,9 @@ class _SaleFormScreenState extends State<SaleFormScreen> {
                                 selected: _selectedCategoryId == category.id,
                                 onSelected: (selected) {
                                   setState(() {
-                                    _selectedCategoryId =
-                                        selected ? category.id : null;
+                                    _selectedCategoryId = selected
+                                        ? category.id
+                                        : null;
                                   });
                                 },
                               ),
@@ -161,8 +165,9 @@ class _SaleFormScreenState extends State<SaleFormScreen> {
                         final filteredProducts = state.products.where((p) {
                           final matchesSearch =
                               p.name.toLowerCase().contains(_searchQuery) ||
-                                  p.sku.toLowerCase().contains(_searchQuery);
-                          final matchesCategory = _selectedCategoryId == null ||
+                              p.sku.toLowerCase().contains(_searchQuery);
+                          final matchesCategory =
+                              _selectedCategoryId == null ||
                               p.categoryId == _selectedCategoryId;
                           return p.isActive && matchesSearch && matchesCategory;
                         }).toList();
@@ -175,11 +180,11 @@ class _SaleFormScreenState extends State<SaleFormScreen> {
                           padding: const EdgeInsets.all(16),
                           gridDelegate:
                               const SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: 200,
-                            childAspectRatio: 0.8,
-                            crossAxisSpacing: 16,
-                            mainAxisSpacing: 16,
-                          ),
+                                maxCrossAxisExtent: 200,
+                                childAspectRatio: 0.8,
+                                crossAxisSpacing: 16,
+                                mainAxisSpacing: 16,
+                              ),
                           itemCount: filteredProducts.length,
                           itemBuilder: (context, index) {
                             final product = filteredProducts[index];
@@ -191,7 +196,8 @@ class _SaleFormScreenState extends State<SaleFormScreen> {
                         );
                       }
                       return const Center(
-                          child: Text('Error loading products'));
+                        child: Text('Error loading products'),
+                      );
                     },
                   ),
                 ),
@@ -232,11 +238,16 @@ class _SaleFormScreenState extends State<SaleFormScreen> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(Icons.shopping_cart_outlined,
-                                    size: 64, color: Colors.grey),
+                                Icon(
+                                  Icons.shopping_cart_outlined,
+                                  size: 64,
+                                  color: Colors.grey,
+                                ),
                                 SizedBox(height: 16),
-                                Text('Cart is empty',
-                                    style: TextStyle(color: Colors.grey)),
+                                Text(
+                                  'Cart is empty',
+                                  style: TextStyle(color: Colors.grey),
+                                ),
                               ],
                             ),
                           )
@@ -253,32 +264,42 @@ class _SaleFormScreenState extends State<SaleFormScreen> {
                                   if (state is ProductsLoaded) {
                                     productName = state.products
                                         .firstWhere(
-                                            (p) => p.id == item.productId)
+                                          (p) => p.id == item.productId,
+                                        )
                                         .name;
                                   }
                                   return ListTile(
                                     contentPadding: EdgeInsets.zero,
-                                    title: Text(productName,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold)),
+                                    title: Text(
+                                      productName,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
                                     subtitle: Text(
-                                        '${AppConfig.defaultCurrency}${item.sellingPrice.toStringAsFixed(2)}'),
+                                      '${AppConfig.defaultCurrency}${item.sellingPrice.toStringAsFixed(2)}',
+                                    ),
                                     trailing: Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         IconButton(
                                           icon: const Icon(
-                                              Icons.remove_circle_outline),
+                                            Icons.remove_circle_outline,
+                                          ),
                                           onPressed: () =>
                                               _updateItemQuantity(index, -1),
                                         ),
-                                        Text('${item.quantity}',
-                                            style: const TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold)),
+                                        Text(
+                                          '${item.quantity}',
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
                                         IconButton(
                                           icon: const Icon(
-                                              Icons.add_circle_outline),
+                                            Icons.add_circle_outline,
+                                          ),
                                           onPressed: () =>
                                               _updateItemQuantity(index, 1),
                                         ),
@@ -286,7 +307,8 @@ class _SaleFormScreenState extends State<SaleFormScreen> {
                                         Text(
                                           '${AppConfig.defaultCurrency}${item.totalPrice.toStringAsFixed(2)}',
                                           style: const TextStyle(
-                                              fontWeight: FontWeight.bold),
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -301,26 +323,33 @@ class _SaleFormScreenState extends State<SaleFormScreen> {
                   Container(
                     padding: const EdgeInsets.all(24),
                     decoration: BoxDecoration(
-                      color: Theme.of(context)
-                          .primaryColor
-                          .withValues(alpha: 0.05),
-                      borderRadius:
-                          const BorderRadius.vertical(top: Radius.circular(24)),
+                      color: Theme.of(
+                        context,
+                      ).primaryColor.withValues(alpha: 0.05),
+                      borderRadius: const BorderRadius.vertical(
+                        top: Radius.circular(24),
+                      ),
                     ),
                     child: Column(
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text('Total:',
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold)),
+                            const Text(
+                              'Total:',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                             Text(
-                                '${AppConfig.defaultCurrency}${_totalAmount.toStringAsFixed(2)}',
-                                style: TextStyle(
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(context).primaryColor)),
+                              '${AppConfig.defaultCurrency}${_totalAmount.toStringAsFixed(2)}',
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                            ),
                           ],
                         ),
                         const SizedBox(height: 16),
@@ -336,9 +365,13 @@ class _SaleFormScreenState extends State<SaleFormScreen> {
                               ),
                             ),
                             onPressed: _items.isEmpty ? null : _saveSale,
-                            child: const Text('CHECKOUT',
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold)),
+                            child: const Text(
+                              'CHECKOUT',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                         ),
                       ],
@@ -357,35 +390,42 @@ class _SaleFormScreenState extends State<SaleFormScreen> {
     if (product.quantity <= 0) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-            content: Text('Out of stock!'), backgroundColor: Colors.red),
+          content: Text('Out of stock!'),
+          backgroundColor: Colors.red,
+        ),
       );
       return;
     }
 
-    final existingIndex =
-        _items.indexWhere((item) => item.productId == product.id);
+    final existingIndex = _items.indexWhere(
+      (item) => item.productId == product.id,
+    );
 
     setState(() {
       if (existingIndex != -1) {
         if (_items[existingIndex].quantity < product.quantity) {
           _items[existingIndex].quantity++;
-          _items[existingIndex].totalPrice = _items[existingIndex].quantity *
+          _items[existingIndex].totalPrice =
+              _items[existingIndex].quantity *
               _items[existingIndex].sellingPrice;
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-                content: Text('Insufficient stock!'),
-                backgroundColor: Colors.red),
+              content: Text('Insufficient stock!'),
+              backgroundColor: Colors.red,
+            ),
           );
         }
       } else {
-        _items.add(SaleItemModel()
-          ..productId = product.id!
-          ..quantity = 1
-          ..sellingPrice = product.sellingPrice
-          ..purchasePrice = product.purchasePrice
-          ..totalPrice = product.sellingPrice
-          ..createdAt = DateTime.now());
+        _items.add(
+          SaleItemModel()
+            ..productId = product.id!
+            ..quantity = 1
+            ..sellingPrice = product.sellingPrice
+            ..purchasePrice = product.purchasePrice
+            ..totalPrice = product.sellingPrice
+            ..createdAt = DateTime.now(),
+        );
       }
     });
   }
@@ -411,8 +451,9 @@ class _SaleFormScreenState extends State<SaleFormScreen> {
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-              content: Text('Insufficient stock!'),
-              backgroundColor: Colors.red),
+            content: Text('Insufficient stock!'),
+            backgroundColor: Colors.red,
+          ),
         );
       }
     }

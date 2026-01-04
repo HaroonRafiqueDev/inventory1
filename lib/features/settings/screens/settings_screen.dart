@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:inventory_system/core/config/app_config.dart';
-import 'package:inventory_system/features/settings/services/settings_service.dart';
-import 'package:inventory_system/shared/utils/sample_data_service.dart';
+import 'package:inventory1/core/config/app_config.dart';
+import 'package:inventory1/features/settings/services/settings_service.dart';
+import 'package:inventory1/shared/utils/sample_data_service.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -23,11 +23,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void initState() {
     super.initState();
     final settings = SettingsService.settings;
-    _businessNameController =
-        TextEditingController(text: settings.businessName);
+    _businessNameController = TextEditingController(
+      text: settings.businessName,
+    );
     _currencyController = TextEditingController(text: settings.currency);
-    _taxController =
-        TextEditingController(text: settings.taxPercentage.toString());
+    _taxController = TextEditingController(
+      text: settings.taxPercentage.toString(),
+    );
     _addressController = TextEditingController(text: settings.businessAddress);
     _phoneController = TextEditingController(text: settings.businessPhone);
     _isDarkMode = settings.isDarkMode;
@@ -46,9 +48,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Settings'),
-      ),
+      appBar: AppBar(title: const Text('Settings')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
         child: Center(
@@ -57,9 +57,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Business Profile',
-                    style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                const Text(
+                  'Business Profile',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
                 const SizedBox(height: 24),
                 Card(
                   child: Padding(
@@ -71,7 +72,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           TextFormField(
                             controller: _businessNameController,
                             decoration: const InputDecoration(
-                                labelText: 'Business Name'),
+                              labelText: 'Business Name',
+                            ),
                             validator: (value) => value == null || value.isEmpty
                                 ? 'Required'
                                 : null,
@@ -83,7 +85,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 child: TextFormField(
                                   controller: _currencyController,
                                   decoration: const InputDecoration(
-                                      labelText: 'Currency Symbol'),
+                                    labelText: 'Currency Symbol',
+                                  ),
                                 ),
                               ),
                               const SizedBox(width: 16),
@@ -91,7 +94,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 child: TextFormField(
                                   controller: _taxController,
                                   decoration: const InputDecoration(
-                                      labelText: 'Default Tax (%)'),
+                                    labelText: 'Default Tax (%)',
+                                  ),
                                   keyboardType: TextInputType.number,
                                 ),
                               ),
@@ -101,13 +105,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           TextFormField(
                             controller: _phoneController,
                             decoration: const InputDecoration(
-                                labelText: 'Business Phone'),
+                              labelText: 'Business Phone',
+                            ),
                           ),
                           const SizedBox(height: 16),
                           TextFormField(
                             controller: _addressController,
                             decoration: const InputDecoration(
-                                labelText: 'Business Address'),
+                              labelText: 'Business Address',
+                            ),
                             maxLines: 2,
                           ),
                         ],
@@ -116,17 +122,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                 ),
                 const SizedBox(height: 32),
-                const Text('Application Settings',
-                    style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                const Text(
+                  'Application Settings',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
                 const SizedBox(height: 24),
                 Card(
                   child: Column(
                     children: [
                       SwitchListTile(
                         title: const Text('Dark Mode'),
-                        subtitle:
-                            const Text('Switch between light and dark themes'),
+                        subtitle: const Text(
+                          'Switch between light and dark themes',
+                        ),
                         value: _isDarkMode,
                         onChanged: (value) =>
                             setState(() => _isDarkMode = value),
@@ -140,9 +148,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                 ),
                 const SizedBox(height: 32),
-                const Text('Data Management',
-                    style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                const Text(
+                  'Data Management',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
                 const SizedBox(height: 24),
                 Card(
                   child: Column(
@@ -150,7 +159,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ListTile(
                         title: const Text('Seed Sample Data'),
                         subtitle: const Text(
-                            'Populate the database with dummy products, categories, and suppliers'),
+                          'Populate the database with dummy products, categories, and suppliers',
+                        ),
                         trailing: const Icon(Icons.data_exploration),
                         onTap: _seedSampleData,
                       ),
@@ -158,9 +168,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ListTile(
                         title: const Text('Clear All Data'),
                         subtitle: const Text(
-                            'Permanently delete all records from the database'),
-                        trailing:
-                            const Icon(Icons.delete_forever, color: Colors.red),
+                          'Permanently delete all records from the database',
+                        ),
+                        trailing: const Icon(
+                          Icons.delete_forever,
+                          color: Colors.red,
+                        ),
                         onTap: _clearAllData,
                       ),
                     ],
@@ -172,9 +185,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   height: 50,
                   child: ElevatedButton(
                     onPressed: _saveSettings,
-                    child: const Text('Save Settings',
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold)),
+                    child: const Text(
+                      'Save Settings',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -190,8 +207,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-            content: Text(
-                'Sample data seeded successfully. Please refresh or restart to see changes.')),
+          content: Text(
+            'Sample data seeded successfully. Please refresh or restart to see changes.',
+          ),
+        ),
       );
     }
   }
@@ -202,15 +221,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
       builder: (context) => AlertDialog(
         title: const Text('Clear All Data?'),
         content: const Text(
-            'This will permanently delete all products, sales, purchases, and settings. This action cannot be undone.'),
+          'This will permanently delete all products, sales, purchases, and settings. This action cannot be undone.',
+        ),
         actions: [
           TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: const Text('Cancel')),
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancel'),
+          ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
-            child: const Text('Delete Everything',
-                style: TextStyle(color: Colors.red)),
+            child: const Text(
+              'Delete Everything',
+              style: TextStyle(color: Colors.red),
+            ),
           ),
         ],
       ),

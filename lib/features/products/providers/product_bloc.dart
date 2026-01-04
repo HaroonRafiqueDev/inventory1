@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory_system/core/database/models/product_model.dart';
-import 'package:inventory_system/features/products/repositories/product_repository.dart';
+import 'package:inventory1/core/database/models/product_model.dart';
+import 'package:inventory1/features/products/repositories/product_repository.dart';
 
 // Events
 abstract class ProductEvent extends Equatable {
@@ -83,7 +83,9 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   }
 
   Future<void> _onLoadProducts(
-      LoadProducts event, Emitter<ProductState> emit) async {
+    LoadProducts event,
+    Emitter<ProductState> emit,
+  ) async {
     emit(ProductLoading());
     try {
       final products = await _repository.getAllProducts();
@@ -94,7 +96,9 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   }
 
   Future<void> _onSearchProducts(
-      SearchProducts event, Emitter<ProductState> emit) async {
+    SearchProducts event,
+    Emitter<ProductState> emit,
+  ) async {
     emit(ProductLoading());
     try {
       final products = await _repository.searchProducts(event.query);
@@ -105,7 +109,9 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   }
 
   Future<void> _onAddProduct(
-      AddProduct event, Emitter<ProductState> emit) async {
+    AddProduct event,
+    Emitter<ProductState> emit,
+  ) async {
     try {
       await _repository.saveProduct(event.product);
       emit(ProductOperationSuccess('Product added successfully'));
@@ -116,7 +122,9 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   }
 
   Future<void> _onUpdateProduct(
-      UpdateProduct event, Emitter<ProductState> emit) async {
+    UpdateProduct event,
+    Emitter<ProductState> emit,
+  ) async {
     try {
       await _repository.saveProduct(event.product);
       emit(ProductOperationSuccess('Product updated successfully'));
@@ -127,7 +135,9 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   }
 
   Future<void> _onDeleteProduct(
-      DeleteProduct event, Emitter<ProductState> emit) async {
+    DeleteProduct event,
+    Emitter<ProductState> emit,
+  ) async {
     try {
       await _repository.deleteProduct(event.id);
       emit(ProductOperationSuccess('Product deleted successfully'));

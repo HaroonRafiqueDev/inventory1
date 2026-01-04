@@ -1,7 +1,7 @@
-import 'package:inventory_system/core/database/hive_service.dart';
-import 'package:inventory_system/core/database/models/product_model.dart';
-import 'package:inventory_system/core/database/models/purchase_item_model.dart';
-import 'package:inventory_system/core/database/models/purchase_model.dart';
+import 'package:inventory1/core/database/hive_service.dart';
+import 'package:inventory1/core/database/models/product_model.dart';
+import 'package:inventory1/core/database/models/purchase_item_model.dart';
+import 'package:inventory1/core/database/models/purchase_model.dart';
 import 'package:hive/hive.dart';
 
 class PurchaseRepository {
@@ -25,7 +25,9 @@ class PurchaseRepository {
   }
 
   Future<void> createPurchase(
-      PurchaseModel purchase, List<PurchaseItemModel> items) async {
+    PurchaseModel purchase,
+    List<PurchaseItemModel> items,
+  ) async {
     // 1. Save Purchase
     final purchaseId = await _purchaseBox.add(purchase);
     purchase.id = purchaseId;
@@ -49,8 +51,9 @@ class PurchaseRepository {
   }
 
   Future<void> deletePurchase(int purchaseId) async {
-    final items =
-        _itemBox.values.where((item) => item.purchaseId == purchaseId).toList();
+    final items = _itemBox.values
+        .where((item) => item.purchaseId == purchaseId)
+        .toList();
 
     // Reverse stock updates
     for (var item in items) {

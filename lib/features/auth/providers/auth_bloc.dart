@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory_system/core/database/models/user_model.dart';
-import 'package:inventory_system/features/auth/services/auth_service.dart';
+import 'package:inventory1/core/database/models/user_model.dart';
+import 'package:inventory1/features/auth/services/auth_service.dart';
 
 // Events
 abstract class AuthEvent extends Equatable {
@@ -53,7 +53,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Future<void> _onLoginRequested(
-      LoginRequested event, Emitter<AuthState> emit) async {
+    LoginRequested event,
+    Emitter<AuthState> emit,
+  ) async {
     emit(AuthLoading());
     try {
       final success = await AuthService.login(event.username, event.password);

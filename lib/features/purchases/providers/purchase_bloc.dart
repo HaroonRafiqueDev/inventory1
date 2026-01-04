@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory_system/core/database/models/purchase_item_model.dart';
-import 'package:inventory_system/core/database/models/purchase_model.dart';
-import 'package:inventory_system/features/purchases/repositories/purchase_repository.dart';
+import 'package:inventory1/core/database/models/purchase_item_model.dart';
+import 'package:inventory1/core/database/models/purchase_model.dart';
+import 'package:inventory1/features/purchases/repositories/purchase_repository.dart';
 
 // Events
 abstract class PurchaseEvent extends Equatable {
@@ -69,7 +69,9 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
   }
 
   Future<void> _onLoadPurchases(
-      LoadPurchases event, Emitter<PurchaseState> emit) async {
+    LoadPurchases event,
+    Emitter<PurchaseState> emit,
+  ) async {
     emit(PurchaseLoading());
     try {
       final purchases = await _repository.getAllPurchases();
@@ -80,7 +82,9 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
   }
 
   Future<void> _onCreatePurchase(
-      CreatePurchase event, Emitter<PurchaseState> emit) async {
+    CreatePurchase event,
+    Emitter<PurchaseState> emit,
+  ) async {
     emit(PurchaseLoading());
     try {
       await _repository.createPurchase(event.purchase, event.items);
@@ -92,7 +96,9 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
   }
 
   Future<void> _onDeletePurchase(
-      DeletePurchase event, Emitter<PurchaseState> emit) async {
+    DeletePurchase event,
+    Emitter<PurchaseState> emit,
+  ) async {
     emit(PurchaseLoading());
     try {
       await _repository.deletePurchase(event.id);

@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory_system/core/database/models/category_model.dart';
-import 'package:inventory_system/features/categories/repositories/category_repository.dart';
+import 'package:inventory1/core/database/models/category_model.dart';
+import 'package:inventory1/features/categories/repositories/category_repository.dart';
 
 // Events
 abstract class CategoryEvent extends Equatable {
@@ -75,7 +75,9 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   }
 
   Future<void> _onLoadCategories(
-      LoadCategories event, Emitter<CategoryState> emit) async {
+    LoadCategories event,
+    Emitter<CategoryState> emit,
+  ) async {
     emit(CategoryLoading());
     try {
       final categories = await _repository.getAllCategories();
@@ -86,7 +88,9 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   }
 
   Future<void> _onAddCategory(
-      AddCategory event, Emitter<CategoryState> emit) async {
+    AddCategory event,
+    Emitter<CategoryState> emit,
+  ) async {
     try {
       await _repository.saveCategory(event.category);
       emit(CategoryOperationSuccess('Category added successfully'));
@@ -97,7 +101,9 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   }
 
   Future<void> _onUpdateCategory(
-      UpdateCategory event, Emitter<CategoryState> emit) async {
+    UpdateCategory event,
+    Emitter<CategoryState> emit,
+  ) async {
     try {
       await _repository.saveCategory(event.category);
       emit(CategoryOperationSuccess('Category updated successfully'));
@@ -108,7 +114,9 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   }
 
   Future<void> _onDeleteCategory(
-      DeleteCategory event, Emitter<CategoryState> emit) async {
+    DeleteCategory event,
+    Emitter<CategoryState> emit,
+  ) async {
     try {
       final success = await _repository.deleteCategory(event.id);
       if (success) {

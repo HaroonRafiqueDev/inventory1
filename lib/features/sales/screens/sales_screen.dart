@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory_system/core/database/models/sale_model.dart';
-import 'package:inventory_system/features/sales/providers/sale_bloc.dart';
-import 'package:inventory_system/features/sales/screens/sale_form_screen.dart';
+import 'package:inventory1/core/database/models/sale_model.dart';
+import 'package:inventory1/features/sales/providers/sale_bloc.dart';
+import 'package:inventory1/features/sales/screens/sale_form_screen.dart';
 import 'package:intl/intl.dart';
 
 class SalesScreen extends StatelessWidget {
@@ -28,13 +28,15 @@ class SalesScreen extends StatelessWidget {
       body: BlocConsumer<SaleBloc, SaleState>(
         listener: (context, state) {
           if (state is SaleOperationSuccess) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.message)),
-            );
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.message)));
           } else if (state is SaleError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                  content: Text(state.message), backgroundColor: Colors.red),
+                content: Text(state.message),
+                backgroundColor: Colors.red,
+              ),
             );
           }
         },
@@ -53,10 +55,13 @@ class SalesScreen extends StatelessWidget {
                 final sale = state.sales[index];
                 return Card(
                   child: ListTile(
-                    title: Text(sale.saleNumber,
-                        style: const TextStyle(fontWeight: FontWeight.bold)),
+                    title: Text(
+                      sale.saleNumber,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     subtitle: Text(
-                        '${sale.customerName} | ${DateFormat('dd MMM yyyy HH:mm').format(sale.saleDate)}'),
+                      '${sale.customerName} | ${DateFormat('dd MMM yyyy HH:mm').format(sale.saleDate)}',
+                    ),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -64,19 +69,28 @@ class SalesScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            Text('\$${sale.totalAmount.toStringAsFixed(2)}',
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16)),
                             Text(
-                                'Profit: \$${sale.totalProfit.toStringAsFixed(2)}',
-                                style: const TextStyle(
-                                    fontSize: 12, color: Colors.green)),
+                              '\$${sale.totalAmount.toStringAsFixed(2)}',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                            Text(
+                              'Profit: \$${sale.totalProfit.toStringAsFixed(2)}',
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: Colors.green,
+                              ),
+                            ),
                           ],
                         ),
                         const SizedBox(width: 16),
                         IconButton(
-                          icon: const Icon(Icons.delete_outline,
-                              color: Colors.red),
+                          icon: const Icon(
+                            Icons.delete_outline,
+                            color: Colors.red,
+                          ),
                           onPressed: () => _confirmDelete(context, sale),
                         ),
                       ],
@@ -98,7 +112,8 @@ class SalesScreen extends StatelessWidget {
       builder: (dialogContext) => AlertDialog(
         title: const Text('Delete Sale'),
         content: const Text(
-            'Are you sure you want to delete this sale? This will reverse the stock updates.'),
+          'Are you sure you want to delete this sale? This will reverse the stock updates.',
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext),
@@ -106,7 +121,9 @@ class SalesScreen extends StatelessWidget {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red, foregroundColor: Colors.white),
+              backgroundColor: Colors.red,
+              foregroundColor: Colors.white,
+            ),
             onPressed: () {
               if (sale.id != null) {
                 context.read<SaleBloc>().add(DeleteSale(sale.id!));

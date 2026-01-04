@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory_system/core/database/models/product_model.dart';
-import 'package:inventory_system/core/database/models/purchase_item_model.dart';
-import 'package:inventory_system/core/database/models/purchase_model.dart';
-import 'package:inventory_system/features/products/providers/product_bloc.dart';
-import 'package:inventory_system/features/purchases/providers/purchase_bloc.dart';
-import 'package:inventory_system/features/suppliers/providers/supplier_bloc.dart';
+import 'package:inventory1/core/database/models/product_model.dart';
+import 'package:inventory1/core/database/models/purchase_item_model.dart';
+import 'package:inventory1/core/database/models/purchase_model.dart';
+import 'package:inventory1/features/products/providers/product_bloc.dart';
+import 'package:inventory1/features/purchases/providers/purchase_bloc.dart';
+import 'package:inventory1/features/suppliers/providers/supplier_bloc.dart';
 
 class PurchaseFormScreen extends StatefulWidget {
   const PurchaseFormScreen({super.key});
@@ -17,7 +17,8 @@ class PurchaseFormScreen extends StatefulWidget {
 class _PurchaseFormScreenState extends State<PurchaseFormScreen> {
   final _formKey = GlobalKey<FormState>();
   final _purchaseNumberController = TextEditingController(
-      text: 'PUR-${DateTime.now().millisecondsSinceEpoch}');
+    text: 'PUR-${DateTime.now().millisecondsSinceEpoch}',
+  );
   final _notesController = TextEditingController();
   int? _selectedSupplierId;
   final List<PurchaseItemModel> _items = [];
@@ -42,9 +43,7 @@ class _PurchaseFormScreenState extends State<PurchaseFormScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('New Purchase (Stock In)'),
-      ),
+      appBar: AppBar(title: const Text('New Purchase (Stock In)')),
       body: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -69,7 +68,8 @@ class _PurchaseFormScreenState extends State<PurchaseFormScreen> {
                                   child: TextFormField(
                                     controller: _purchaseNumberController,
                                     decoration: const InputDecoration(
-                                        labelText: 'Purchase Number'),
+                                      labelText: 'Purchase Number',
+                                    ),
                                     readOnly: true,
                                   ),
                                 ),
@@ -77,26 +77,34 @@ class _PurchaseFormScreenState extends State<PurchaseFormScreen> {
                                 Expanded(
                                   child:
                                       BlocBuilder<SupplierBloc, SupplierState>(
-                                    builder: (context, state) {
-                                      if (state is SuppliersLoaded) {
-                                        return DropdownButtonFormField<int>(
-                                          initialValue: _selectedSupplierId,
-                                          decoration: const InputDecoration(
-                                              labelText: 'Supplier *'),
-                                          items: state.suppliers.map((s) {
-                                            return DropdownMenuItem(
-                                                value: s.id,
-                                                child: Text(s.name));
-                                          }).toList(),
-                                          onChanged: (value) => setState(() =>
-                                              _selectedSupplierId = value),
-                                          validator: (value) =>
-                                              value == null ? 'Required' : null,
-                                        );
-                                      }
-                                      return const Text('Loading suppliers...');
-                                    },
-                                  ),
+                                        builder: (context, state) {
+                                          if (state is SuppliersLoaded) {
+                                            return DropdownButtonFormField<int>(
+                                              initialValue: _selectedSupplierId,
+                                              decoration: const InputDecoration(
+                                                labelText: 'Supplier *',
+                                              ),
+                                              items: state.suppliers.map((s) {
+                                                return DropdownMenuItem(
+                                                  value: s.id,
+                                                  child: Text(s.name),
+                                                );
+                                              }).toList(),
+                                              onChanged: (value) => setState(
+                                                () =>
+                                                    _selectedSupplierId = value,
+                                              ),
+                                              validator: (value) =>
+                                                  value == null
+                                                  ? 'Required'
+                                                  : null,
+                                            );
+                                          }
+                                          return const Text(
+                                            'Loading suppliers...',
+                                          );
+                                        },
+                                      ),
                                 ),
                               ],
                             ),
@@ -106,9 +114,10 @@ class _PurchaseFormScreenState extends State<PurchaseFormScreen> {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  const Text('Purchase Items',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  const Text(
+                    'Purchase Items',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
                   const SizedBox(height: 8),
                   Card(
                     child: _items.isEmpty
@@ -130,25 +139,32 @@ class _PurchaseFormScreenState extends State<PurchaseFormScreen> {
                                   if (state is ProductsLoaded) {
                                     productName = state.products
                                         .firstWhere(
-                                            (p) => p.id == item.productId)
+                                          (p) => p.id == item.productId,
+                                        )
                                         .name;
                                   }
                                   return ListTile(
                                     title: Text(productName),
                                     subtitle: Text(
-                                        'Qty: ${item.quantity} x \$${item.purchasePrice.toStringAsFixed(2)}'),
+                                      'Qty: ${item.quantity} x \$${item.purchasePrice.toStringAsFixed(2)}',
+                                    ),
                                     trailing: Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Text(
-                                            '\$${item.totalPrice.toStringAsFixed(2)}',
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold)),
+                                          '\$${item.totalPrice.toStringAsFixed(2)}',
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
                                         IconButton(
-                                          icon: const Icon(Icons.delete_outline,
-                                              color: Colors.red),
+                                          icon: const Icon(
+                                            Icons.delete_outline,
+                                            color: Colors.red,
+                                          ),
                                           onPressed: () => setState(
-                                              () => _items.removeAt(index)),
+                                            () => _items.removeAt(index),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -169,18 +185,21 @@ class _PurchaseFormScreenState extends State<PurchaseFormScreen> {
               child: Column(
                 children: [
                   Card(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .primaryContainer
-                        .withValues(alpha: 0.3),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.primaryContainer.withValues(alpha: 0.3),
                     child: Padding(
                       padding: const EdgeInsets.all(24),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Add Product',
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold)),
+                          const Text(
+                            'Add Product',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                           const SizedBox(height: 16),
                           BlocBuilder<ProductBloc, ProductState>(
                             builder: (context, state) {
@@ -188,17 +207,20 @@ class _PurchaseFormScreenState extends State<PurchaseFormScreen> {
                                 return DropdownButtonFormField<ProductModel>(
                                   initialValue: _selectedProduct,
                                   decoration: const InputDecoration(
-                                      labelText: 'Select Product'),
+                                    labelText: 'Select Product',
+                                  ),
                                   items: state.products.map((p) {
                                     return DropdownMenuItem(
-                                        value: p, child: Text(p.name));
+                                      value: p,
+                                      child: Text(p.name),
+                                    );
                                   }).toList(),
                                   onChanged: (value) {
                                     setState(() {
                                       _selectedProduct = value;
                                       _priceController.text =
                                           value?.purchasePrice.toString() ??
-                                              '0.0';
+                                          '0.0';
                                     });
                                   },
                                 );
@@ -213,7 +235,8 @@ class _PurchaseFormScreenState extends State<PurchaseFormScreen> {
                                 child: TextFormField(
                                   controller: _quantityController,
                                   decoration: const InputDecoration(
-                                      labelText: 'Quantity'),
+                                    labelText: 'Quantity',
+                                  ),
                                   keyboardType: TextInputType.number,
                                 ),
                               ),
@@ -222,7 +245,9 @@ class _PurchaseFormScreenState extends State<PurchaseFormScreen> {
                                 child: TextFormField(
                                   controller: _priceController,
                                   decoration: const InputDecoration(
-                                      labelText: 'Price', prefixText: '\$'),
+                                    labelText: 'Price',
+                                    prefixText: '\$',
+                                  ),
                                   keyboardType: TextInputType.number,
                                 ),
                               ),
@@ -250,24 +275,29 @@ class _PurchaseFormScreenState extends State<PurchaseFormScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Text('Total Amount:',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold)),
-                              Text('\$${_totalAmount.toStringAsFixed(2)}',
-                                  style: TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .primary)),
+                              const Text(
+                                'Total Amount:',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                '\$${_totalAmount.toStringAsFixed(2)}',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
                             ],
                           ),
                           const SizedBox(height: 24),
                           TextFormField(
                             controller: _notesController,
                             decoration: const InputDecoration(
-                                labelText: 'Purchase Notes'),
+                              labelText: 'Purchase Notes',
+                            ),
                             maxLines: 2,
                           ),
                           const SizedBox(height: 32),
@@ -276,16 +306,21 @@ class _PurchaseFormScreenState extends State<PurchaseFormScreen> {
                             height: 50,
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    Theme.of(context).colorScheme.primary,
-                                foregroundColor:
-                                    Theme.of(context).colorScheme.onPrimary,
+                                backgroundColor: Theme.of(
+                                  context,
+                                ).colorScheme.primary,
+                                foregroundColor: Theme.of(
+                                  context,
+                                ).colorScheme.onPrimary,
                               ),
                               onPressed: _items.isEmpty ? null : _savePurchase,
-                              child: const Text('Complete Purchase',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold)),
+                              child: const Text(
+                                'Complete Purchase',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
                           ),
                         ],
@@ -309,12 +344,14 @@ class _PurchaseFormScreenState extends State<PurchaseFormScreen> {
     if (qty <= 0) return;
 
     setState(() {
-      _items.add(PurchaseItemModel()
-        ..productId = _selectedProduct!.id!
-        ..quantity = qty
-        ..purchasePrice = price
-        ..totalPrice = qty * price
-        ..createdAt = DateTime.now());
+      _items.add(
+        PurchaseItemModel()
+          ..productId = _selectedProduct!.id!
+          ..quantity = qty
+          ..purchasePrice = price
+          ..totalPrice = qty * price
+          ..createdAt = DateTime.now(),
+      );
 
       _selectedProduct = null;
       _quantityController.text = '1';

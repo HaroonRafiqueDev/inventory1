@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory_system/core/database/models/category_model.dart';
-import 'package:inventory_system/features/categories/providers/category_bloc.dart';
+import 'package:inventory1/core/database/models/category_model.dart';
+import 'package:inventory1/features/categories/providers/category_bloc.dart';
 
 class CategoriesScreen extends StatelessWidget {
   const CategoriesScreen({super.key});
@@ -23,13 +23,15 @@ class CategoriesScreen extends StatelessWidget {
       body: BlocConsumer<CategoryBloc, CategoryState>(
         listener: (context, state) {
           if (state is CategoryOperationSuccess) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.message)),
-            );
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.message)));
           } else if (state is CategoryError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                  content: Text(state.message), backgroundColor: Colors.red),
+                content: Text(state.message),
+                backgroundColor: Colors.red,
+              ),
             );
           }
         },
@@ -39,7 +41,8 @@ class CategoriesScreen extends StatelessWidget {
           } else if (state is CategoriesLoaded) {
             if (state.categories.isEmpty) {
               return const Center(
-                  child: Text('No categories found. Add one to get started!'));
+                child: Text('No categories found. Add one to get started!'),
+              );
             }
             return ListView.separated(
               padding: const EdgeInsets.all(16),
@@ -49,8 +52,10 @@ class CategoriesScreen extends StatelessWidget {
                 final category = state.categories[index];
                 return Card(
                   child: ListTile(
-                    title: Text(category.name,
-                        style: const TextStyle(fontWeight: FontWeight.bold)),
+                    title: Text(
+                      category.name,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     subtitle: Text(category.description ?? 'No description'),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -61,8 +66,10 @@ class CategoriesScreen extends StatelessWidget {
                               _showCategoryDialog(context, category: category),
                         ),
                         IconButton(
-                          icon: const Icon(Icons.delete_outline,
-                              color: Colors.red),
+                          icon: const Icon(
+                            Icons.delete_outline,
+                            color: Colors.red,
+                          ),
                           onPressed: () => _confirmDelete(context, category),
                         ),
                       ],
@@ -149,7 +156,9 @@ class CategoriesScreen extends StatelessWidget {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red, foregroundColor: Colors.white),
+              backgroundColor: Colors.red,
+              foregroundColor: Colors.white,
+            ),
             onPressed: () {
               if (category.id != null) {
                 context.read<CategoryBloc>().add(DeleteCategory(category.id!));

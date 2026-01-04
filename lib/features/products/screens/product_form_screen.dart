@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory_system/core/database/models/product_model.dart';
-import 'package:inventory_system/features/categories/providers/category_bloc.dart';
-import 'package:inventory_system/features/products/providers/product_bloc.dart';
+import 'package:inventory1/core/database/models/product_model.dart';
+import 'package:inventory1/features/categories/providers/category_bloc.dart';
+import 'package:inventory1/features/products/providers/product_bloc.dart';
 
 class ProductFormScreen extends StatefulWidget {
   final ProductModel? product;
@@ -31,13 +31,17 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
     _nameController = TextEditingController(text: widget.product?.name);
     _skuController = TextEditingController(text: widget.product?.sku);
     _purchasePriceController = TextEditingController(
-        text: widget.product?.purchasePrice.toString() ?? '0.0');
+      text: widget.product?.purchasePrice.toString() ?? '0.0',
+    );
     _sellingPriceController = TextEditingController(
-        text: widget.product?.sellingPrice.toString() ?? '0.0');
-    _quantityController =
-        TextEditingController(text: widget.product?.quantity.toString() ?? '0');
+      text: widget.product?.sellingPrice.toString() ?? '0.0',
+    );
+    _quantityController = TextEditingController(
+      text: widget.product?.quantity.toString() ?? '0',
+    );
     _minStockController = TextEditingController(
-        text: widget.product?.minStockThreshold.toString() ?? '10');
+      text: widget.product?.minStockThreshold.toString() ?? '10',
+    );
     _notesController = TextEditingController(text: widget.product?.notes);
     _selectedCategoryId = widget.product?.categoryId;
     _isActive = widget.product?.isActive ?? true;
@@ -81,11 +85,12 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                             child: TextFormField(
                               controller: _nameController,
                               decoration: const InputDecoration(
-                                  labelText: 'Product Name *'),
+                                labelText: 'Product Name *',
+                              ),
                               validator: (value) =>
                                   value == null || value.isEmpty
-                                      ? 'Required'
-                                      : null,
+                                  ? 'Required'
+                                  : null,
                             ),
                           ),
                           const SizedBox(width: 16),
@@ -93,11 +98,12 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                             child: TextFormField(
                               controller: _skuController,
                               decoration: const InputDecoration(
-                                  labelText: 'SKU / Item Code *'),
+                                labelText: 'SKU / Item Code *',
+                              ),
                               validator: (value) =>
                                   value == null || value.isEmpty
-                                      ? 'Required'
-                                      : null,
+                                  ? 'Required'
+                                  : null,
                             ),
                           ),
                         ],
@@ -112,13 +118,17 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                                   return DropdownButtonFormField<int>(
                                     initialValue: _selectedCategoryId,
                                     decoration: const InputDecoration(
-                                        labelText: 'Category *'),
+                                      labelText: 'Category *',
+                                    ),
                                     items: state.categories.map((c) {
                                       return DropdownMenuItem(
-                                          value: c.id, child: Text(c.name));
+                                        value: c.id,
+                                        child: Text(c.name),
+                                      );
                                     }).toList(),
                                     onChanged: (value) => setState(
-                                        () => _selectedCategoryId = value),
+                                      () => _selectedCategoryId = value,
+                                    ),
                                     validator: (value) =>
                                         value == null ? 'Required' : null,
                                   );
@@ -145,8 +155,9 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                             child: TextFormField(
                               controller: _purchasePriceController,
                               decoration: const InputDecoration(
-                                  labelText: 'Purchase Price',
-                                  prefixText: '\$'),
+                                labelText: 'Purchase Price',
+                                prefixText: '\$',
+                              ),
                               keyboardType: TextInputType.number,
                             ),
                           ),
@@ -155,13 +166,14 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                             child: TextFormField(
                               controller: _sellingPriceController,
                               decoration: const InputDecoration(
-                                  labelText: 'Selling Price *',
-                                  prefixText: '\$'),
+                                labelText: 'Selling Price *',
+                                prefixText: '\$',
+                              ),
                               keyboardType: TextInputType.number,
                               validator: (value) =>
                                   value == null || value.isEmpty
-                                      ? 'Required'
-                                      : null,
+                                  ? 'Required'
+                                  : null,
                             ),
                           ),
                         ],
@@ -173,12 +185,13 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                             child: TextFormField(
                               controller: _quantityController,
                               decoration: const InputDecoration(
-                                  labelText: 'Initial Stock Quantity *'),
+                                labelText: 'Initial Stock Quantity *',
+                              ),
                               keyboardType: TextInputType.number,
                               validator: (value) =>
                                   value == null || value.isEmpty
-                                      ? 'Required'
-                                      : null,
+                                  ? 'Required'
+                                  : null,
                             ),
                           ),
                           const SizedBox(width: 16),
@@ -186,7 +199,8 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                             child: TextFormField(
                               controller: _minStockController,
                               decoration: const InputDecoration(
-                                  labelText: 'Min Stock Threshold'),
+                                labelText: 'Min Stock Threshold',
+                              ),
                               keyboardType: TextInputType.number,
                             ),
                           ),

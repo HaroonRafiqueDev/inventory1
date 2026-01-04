@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory_system/features/products/providers/product_bloc.dart';
-import 'package:inventory_system/features/sales/providers/sale_bloc.dart';
-import 'package:inventory_system/features/purchases/providers/purchase_bloc.dart';
+import 'package:inventory1/features/products/providers/product_bloc.dart';
+import 'package:inventory1/features/sales/providers/sale_bloc.dart';
+import 'package:inventory1/features/purchases/providers/purchase_bloc.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'package:excel/excel.dart';
@@ -14,16 +14,16 @@ class ReportsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Reports & Exports'),
-      ),
+      appBar: AppBar(title: const Text('Reports & Exports')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Available Reports',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            const Text(
+              'Available Reports',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
             const SizedBox(height: 24),
             Wrap(
               spacing: 16,
@@ -72,12 +72,14 @@ class ReportsScreen extends StatelessWidget {
           pw.TableHelper.fromTextArray(
             headers: ['SKU', 'Product Name', 'Quantity', 'Price'],
             data: state.products
-                .map((p) => [
-                      p.sku,
-                      p.name,
-                      p.quantity.toString(),
-                      '\$${p.sellingPrice.toStringAsFixed(2)}'
-                    ])
+                .map(
+                  (p) => [
+                    p.sku,
+                    p.name,
+                    p.quantity.toString(),
+                    '\$${p.sellingPrice.toStringAsFixed(2)}',
+                  ],
+                )
                 .toList(),
           ),
         ],
@@ -93,20 +95,10 @@ class ReportsScreen extends StatelessWidget {
 
     var excel = Excel.createExcel();
     Sheet sheet = excel['Inventory'];
-    sheet.appendRow([
-      TextCellValue('SKU'),
-      TextCellValue('Product Name'),
-      TextCellValue('Quantity'),
-      TextCellValue('Price')
-    ]);
+    sheet.appendRow([('SKU'), ('Product Name'), ('Quantity'), ('Price')]);
 
     for (var p in state.products) {
-      sheet.appendRow([
-        TextCellValue(p.sku),
-        TextCellValue(p.name),
-        IntCellValue(p.quantity),
-        DoubleCellValue(p.sellingPrice),
-      ]);
+      sheet.appendRow([(p.sku), (p.name), (p.quantity), (p.sellingPrice)]);
     }
 
     _downloadFile(excel.save()!, 'inventory_report.xlsx');
@@ -134,13 +126,15 @@ class ReportsScreen extends StatelessWidget {
           pw.TableHelper.fromTextArray(
             headers: ['Sale #', 'Customer', 'Date', 'Amount', 'Profit'],
             data: state.sales
-                .map((s) => [
-                      s.saleNumber,
-                      s.customerName,
-                      s.saleDate.toString().split('.')[0],
-                      '\$${s.totalAmount.toStringAsFixed(2)}',
-                      '\$${s.totalProfit.toStringAsFixed(2)}'
-                    ])
+                .map(
+                  (s) => [
+                    s.saleNumber,
+                    s.customerName,
+                    s.saleDate.toString().split('.')[0],
+                    '\$${s.totalAmount.toStringAsFixed(2)}',
+                    '\$${s.totalProfit.toStringAsFixed(2)}',
+                  ],
+                )
                 .toList(),
           ),
         ],
@@ -157,20 +151,20 @@ class ReportsScreen extends StatelessWidget {
     var excel = Excel.createExcel();
     Sheet sheet = excel['Sales'];
     sheet.appendRow([
-      TextCellValue('Sale #'),
-      TextCellValue('Customer'),
-      TextCellValue('Date'),
-      TextCellValue('Amount'),
-      TextCellValue('Profit')
+      ('Sale #'),
+      ('Customer'),
+      ('Date'),
+      ('Amount'),
+      ('Profit'),
     ]);
 
     for (var s in state.sales) {
       sheet.appendRow([
-        TextCellValue(s.saleNumber),
-        TextCellValue(s.customerName ?? 'N/A'),
-        TextCellValue(s.saleDate.toString().split('.')[0]),
-        DoubleCellValue(s.totalAmount),
-        DoubleCellValue(s.totalProfit),
+        (s.saleNumber),
+        (s.customerName ?? 'N/A'),
+        (s.saleDate.toString().split('.')[0]),
+        (s.totalAmount),
+        (s.totalProfit),
       ]);
     }
 
@@ -190,11 +184,13 @@ class ReportsScreen extends StatelessWidget {
           pw.TableHelper.fromTextArray(
             headers: ['Purchase #', 'Date', 'Total Amount'],
             data: state.purchases
-                .map((p) => [
-                      p.purchaseNumber,
-                      p.purchaseDate.toString().split('.')[0],
-                      '\$${p.totalAmount.toStringAsFixed(2)}'
-                    ])
+                .map(
+                  (p) => [
+                    p.purchaseNumber,
+                    p.purchaseDate.toString().split('.')[0],
+                    '\$${p.totalAmount.toStringAsFixed(2)}',
+                  ],
+                )
                 .toList(),
           ),
         ],
@@ -210,17 +206,13 @@ class ReportsScreen extends StatelessWidget {
 
     var excel = Excel.createExcel();
     Sheet sheet = excel['Purchases'];
-    sheet.appendRow([
-      TextCellValue('Purchase #'),
-      TextCellValue('Date'),
-      TextCellValue('Total Amount')
-    ]);
+    sheet.appendRow([('Purchase #'), ('Date'), ('Total Amount')]);
 
     for (var p in state.purchases) {
       sheet.appendRow([
-        TextCellValue(p.purchaseNumber),
-        TextCellValue(p.purchaseDate.toString().split('.')[0]),
-        DoubleCellValue(p.totalAmount),
+        (p.purchaseNumber),
+        (p.purchaseDate.toString().split('.')[0]),
+        (p.totalAmount),
       ]);
     }
 
@@ -253,12 +245,19 @@ class _ReportCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(icon,
-                  size: 48, color: Theme.of(context).colorScheme.primary),
+              Icon(
+                icon,
+                size: 48,
+                color: Theme.of(context).colorScheme.primary,
+              ),
               const SizedBox(height: 16),
-              Text(title,
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold)),
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               const SizedBox(height: 8),
               Text(description, style: TextStyle(color: Colors.grey[600])),
               const SizedBox(height: 24),
@@ -270,8 +269,9 @@ class _ReportCard extends StatelessWidget {
                       icon: const Icon(Icons.picture_as_pdf),
                       label: const Text('PDF'),
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red[50],
-                          foregroundColor: Colors.red),
+                        backgroundColor: Colors.red[50],
+                        foregroundColor: Colors.red,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -281,8 +281,9 @@ class _ReportCard extends StatelessWidget {
                       icon: const Icon(Icons.table_chart),
                       label: const Text('Excel'),
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green[50],
-                          foregroundColor: Colors.green),
+                        backgroundColor: Colors.green[50],
+                        foregroundColor: Colors.green,
+                      ),
                     ),
                   ),
                 ],

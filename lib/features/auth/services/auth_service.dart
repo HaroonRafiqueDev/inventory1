@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
-import 'package:inventory_system/core/config/app_config.dart';
-import 'package:inventory_system/core/database/hive_service.dart';
-import 'package:inventory_system/core/database/models/user_model.dart';
+import 'package:inventory1/core/config/app_config.dart';
+import 'package:inventory1/core/database/hive_service.dart';
+import 'package:inventory1/core/database/models/user_model.dart';
 import 'package:hive/hive.dart';
 
 class AuthService {
@@ -38,9 +38,7 @@ class AuthService {
   static Future<bool> login(String username, String password) async {
     final passwordHash = hashPassword(password);
     try {
-      final user = _box.values.firstWhere(
-        (u) => u.username == username,
-      );
+      final user = _box.values.firstWhere((u) => u.username == username);
 
       if (user.passwordHash == passwordHash && user.isActive) {
         _currentUser = user;
@@ -55,7 +53,9 @@ class AuthService {
   }
 
   static Future<bool> changePassword(
-      String oldPassword, String newPassword) async {
+    String oldPassword,
+    String newPassword,
+  ) async {
     if (_currentUser == null) return false;
 
     final oldHash = hashPassword(oldPassword);

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory_system/core/config/app_config.dart';
-import 'package:inventory_system/features/license/providers/license_bloc.dart';
+import 'package:inventory1/core/config/app_config.dart';
+import 'package:inventory1/features/license/providers/license_bloc.dart';
 
 class LicenseActivationScreen extends StatefulWidget {
   const LicenseActivationScreen({super.key});
@@ -43,9 +43,9 @@ class _LicenseActivationScreenState extends State<LicenseActivationScreen> {
               child: BlocConsumer<LicenseBloc, LicenseState>(
                 listener: (context, state) {
                   if (state is LicenseError) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(state.message)),
-                    );
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text(state.message)));
                   }
                 },
                 builder: (context, state) {
@@ -60,12 +60,8 @@ class _LicenseActivationScreenState extends State<LicenseActivationScreen> {
                       const SizedBox(height: 16),
                       Text(
                         AppConfig.appName,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineMedium
-                            ?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
+                        style: Theme.of(context).textTheme.headlineMedium
+                            ?.copyWith(fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 8),
                       const Text(
@@ -89,15 +85,16 @@ class _LicenseActivationScreenState extends State<LicenseActivationScreen> {
                               ? null
                               : () {
                                   context.read<LicenseBloc>().add(
-                                        ActivateLicense(_keyController.text),
-                                      );
+                                    ActivateLicense(_keyController.text),
+                                  );
                                 },
                           child: state is LicenseLoading
                               ? const SizedBox(
                                   height: 20,
                                   width: 20,
-                                  child:
-                                      CircularProgressIndicator(strokeWidth: 2),
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                  ),
                                 )
                               : const Text('Activate License'),
                         ),
@@ -120,9 +117,9 @@ class _LicenseActivationScreenState extends State<LicenseActivationScreen> {
                           onPressed: state is LicenseLoading
                               ? null
                               : () {
-                                  context
-                                      .read<LicenseBloc>()
-                                      .add(ActivateTrial());
+                                  context.read<LicenseBloc>().add(
+                                    ActivateTrial(),
+                                  );
                                 },
                           child: const Text('Start 30-Day Free Trial'),
                         ),

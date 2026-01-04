@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
-import 'package:inventory_system/core/database/hive_service.dart';
-import 'package:inventory_system/core/database/models/license_model.dart';
+import 'package:inventory1/core/database/hive_service.dart';
+import 'package:inventory1/core/database/models/license_model.dart';
 import 'package:hive/hive.dart';
 
 class LicenseService {

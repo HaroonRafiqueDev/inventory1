@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory_system/core/database/models/stock_adjustment_model.dart';
-import 'package:inventory_system/features/inventory/repositories/stock_adjustment_repository.dart';
+import 'package:inventory1/core/database/models/stock_adjustment_model.dart';
+import 'package:inventory1/features/inventory/repositories/stock_adjustment_repository.dart';
 
 // Events
 abstract class StockAdjustmentEvent extends Equatable {
@@ -60,7 +60,9 @@ class StockAdjustmentBloc
   }
 
   Future<void> _onLoadAdjustments(
-      LoadAdjustments event, Emitter<StockAdjustmentState> emit) async {
+    LoadAdjustments event,
+    Emitter<StockAdjustmentState> emit,
+  ) async {
     emit(StockAdjustmentLoading());
     try {
       final adjustments = await _repository.getAllAdjustments();
@@ -71,7 +73,9 @@ class StockAdjustmentBloc
   }
 
   Future<void> _onCreateAdjustment(
-      CreateAdjustment event, Emitter<StockAdjustmentState> emit) async {
+    CreateAdjustment event,
+    Emitter<StockAdjustmentState> emit,
+  ) async {
     emit(StockAdjustmentLoading());
     try {
       await _repository.createAdjustment(event.adjustment);

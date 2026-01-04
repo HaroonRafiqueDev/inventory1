@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory_system/core/database/models/sale_item_model.dart';
-import 'package:inventory_system/core/database/models/sale_model.dart';
-import 'package:inventory_system/features/sales/repositories/sale_repository.dart';
+import 'package:inventory1/core/database/models/sale_item_model.dart';
+import 'package:inventory1/core/database/models/sale_model.dart';
+import 'package:inventory1/features/sales/repositories/sale_repository.dart';
 
 // Events
 abstract class SaleEvent extends Equatable {

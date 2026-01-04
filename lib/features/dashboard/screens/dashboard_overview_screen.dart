@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory_system/features/dashboard/providers/dashboard_bloc.dart';
+import 'package:inventory1/features/dashboard/providers/dashboard_bloc.dart';
 import 'package:intl/intl.dart';
 
 class DashboardOverviewScreen extends StatelessWidget {
@@ -87,16 +87,21 @@ class DashboardOverviewScreen extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text('Recent Sales',
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold)),
+                                const Text(
+                                  'Recent Sales',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                                 const SizedBox(height: 16),
                                 if (stats.recentSales.isEmpty)
                                   const Center(
-                                      child: Padding(
-                                          padding: EdgeInsets.all(32),
-                                          child: Text('No sales yet.')))
+                                    child: Padding(
+                                      padding: EdgeInsets.all(32),
+                                      child: Text('No sales yet.'),
+                                    ),
+                                  )
                                 else
                                   ListView.separated(
                                     shrinkWrap: true,
@@ -110,12 +115,16 @@ class DashboardOverviewScreen extends StatelessWidget {
                                       return ListTile(
                                         title: Text(sale.saleNumber),
                                         subtitle: Text(
-                                            DateFormat('dd MMM yyyy HH:mm')
-                                                .format(sale.saleDate)),
+                                          DateFormat(
+                                            'dd MMM yyyy HH:mm',
+                                          ).format(sale.saleDate),
+                                        ),
                                         trailing: Text(
-                                            '\$${sale.totalAmount.toStringAsFixed(2)}',
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold)),
+                                          '\$${sale.totalAmount.toStringAsFixed(2)}',
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
                                       );
                                     },
                                   ),
@@ -133,10 +142,13 @@ class DashboardOverviewScreen extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text('Quick Actions',
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold)),
+                                const Text(
+                                  'Quick Actions',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                                 const SizedBox(height: 16),
                                 _QuickActionButton(
                                   label: 'POS',
@@ -207,11 +219,17 @@ class _StatCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(title,
-                      style: TextStyle(color: Colors.grey[600], fontSize: 14)),
-                  Text(value,
-                      style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold)),
+                  Text(
+                    title,
+                    style: TextStyle(color: Colors.grey[600], fontSize: 14),
+                  ),
+                  Text(
+                    value,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ],
               ),
             ),

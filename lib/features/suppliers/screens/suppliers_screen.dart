@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory_system/core/database/models/supplier_model.dart';
-import 'package:inventory_system/features/suppliers/providers/supplier_bloc.dart';
+import 'package:inventory1/core/database/models/supplier_model.dart';
+import 'package:inventory1/features/suppliers/providers/supplier_bloc.dart';
 
 class SuppliersScreen extends StatelessWidget {
   const SuppliersScreen({super.key});
@@ -37,13 +37,15 @@ class SuppliersScreen extends StatelessWidget {
       body: BlocConsumer<SupplierBloc, SupplierState>(
         listener: (context, state) {
           if (state is SupplierOperationSuccess) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.message)),
-            );
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.message)));
           } else if (state is SupplierError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                  content: Text(state.message), backgroundColor: Colors.red),
+                content: Text(state.message),
+                backgroundColor: Colors.red,
+              ),
             );
           }
         },
@@ -65,10 +67,13 @@ class SuppliersScreen extends StatelessWidget {
                     leading: CircleAvatar(
                       child: Text(supplier.name[0].toUpperCase()),
                     ),
-                    title: Text(supplier.name,
-                        style: const TextStyle(fontWeight: FontWeight.bold)),
+                    title: Text(
+                      supplier.name,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     subtitle: Text(
-                        '${supplier.phone ?? "No phone"} | ${supplier.email ?? "No email"}'),
+                      '${supplier.phone ?? "No phone"} | ${supplier.email ?? "No email"}',
+                    ),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -78,8 +83,10 @@ class SuppliersScreen extends StatelessWidget {
                               _showSupplierDialog(context, supplier: supplier),
                         ),
                         IconButton(
-                          icon: const Icon(Icons.delete_outline,
-                              color: Colors.red),
+                          icon: const Icon(
+                            Icons.delete_outline,
+                            color: Colors.red,
+                          ),
                           onPressed: () => _confirmDelete(context, supplier),
                         ),
                       ],
@@ -115,8 +122,9 @@ class SuppliersScreen extends StatelessWidget {
               children: [
                 TextFormField(
                   controller: nameController,
-                  decoration:
-                      const InputDecoration(labelText: 'Supplier Name *'),
+                  decoration: const InputDecoration(
+                    labelText: 'Supplier Name *',
+                  ),
                   validator: (value) =>
                       value == null || value.isEmpty ? 'Required' : null,
                 ),
@@ -191,7 +199,9 @@ class SuppliersScreen extends StatelessWidget {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red, foregroundColor: Colors.white),
+              backgroundColor: Colors.red,
+              foregroundColor: Colors.white,
+            ),
             onPressed: () {
               if (supplier.id != null) {
                 context.read<SupplierBloc>().add(DeleteSupplier(supplier.id!));
